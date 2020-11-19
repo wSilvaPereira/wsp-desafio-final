@@ -26,10 +26,15 @@ const login = async (req, res) => {
       { login: login },
       { hash: 1, salt: 1, _id: 0 }
     );
+    if (user !== null) {
+      console.log(user);
 
-    const { hash, salt } = user;
-    const valid = isLoginValid(password, salt, hash);
-    res.status(200).send({ login, valid });
+      const { hash, salt } = user;
+      const valid = isLoginValid(password, salt, hash);
+      res.status(200).send({ login, valid });
+    } else {
+      res.status(200).send({ login, valid: 'not founded' });
+    }
   } catch (error) {
     res.status(400).send(error);
   }

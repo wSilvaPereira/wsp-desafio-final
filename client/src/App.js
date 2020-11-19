@@ -7,6 +7,7 @@ import Sumary from './components/Sumary';
 import Transactions from './components/Transactions';
 import transactionService from './services/TransactionService.js';
 import userService from './services/UserService.js';
+import M from 'materialize-css';
 
 const totalItemPerPage = 7;
 
@@ -180,8 +181,16 @@ export default function App() {
   const handleLogging = (login, password) => {
     // console.log(login, password);
     userService.login(login, password).then((response) => {
-      const { login, valid } = response;
-      setIsLogging(!valid);
+      const { login, valid } = response.data;
+      console.log(login, valid);
+      if (valid === 'not founded') {
+        M.toast({ html: 'Usuário não encontrado.' });
+      } else {
+        if (!valid) {
+          M.toast({ html: 'Senha inválida.' });
+        }
+        setIsLogging(!valid);
+      }
     });
   };
 
