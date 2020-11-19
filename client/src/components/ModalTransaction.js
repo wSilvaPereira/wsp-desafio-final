@@ -3,7 +3,7 @@ import { useEffect } from 'react';
 import Modal from 'react-modal';
 import css from './modaltransaction.module.css';
 
-// import M from 'materialize-css';
+import M from 'materialize-css';
 
 const customStyles = {
   content: {
@@ -74,6 +74,7 @@ export default function ModalTransaction({
       yearMonthDay: transactionDate,
     };
     saveTransaction(_id, info);
+    M.toast({ html: 'Transação salva.' });
   };
 
   const handleRadio = (event) => {

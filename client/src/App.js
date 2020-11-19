@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from 'react';
 import Input from './components/Input';
+import Login from './components/Login';
 import ModalTransaction from './components/ModalTransaction';
 import Navegation from './components/Navegation';
 import Sumary from './components/Sumary';
 import Transactions from './components/Transactions';
 import transactionService from './services/TransactionService.js';
+import userService from './services/UserService.js';
 
 const totalItemPerPage = 7;
 
@@ -26,21 +28,25 @@ export default function App() {
   const [currentPage, setCurrentPage] = useState(0);
   const [paginationTransaction, setPaginationTransaction] = useState([]);
 
+  const [isLogging, setIsLogging] = useState(true);
+
   useEffect(() => {
-    let yearMonths = [];
-    transactionService.getYearMonth().then((response) => {
-      yearMonths = [...response.data];
-      setPeriods(yearMonths);
+    if (isLogging) {
+      let yearMonths = [];
+      transactionService.getYearMonth().then((response) => {
+        yearMonths = [...response.data];
+        setPeriods(yearMonths);
 
-      if (currentPeriod === '') {
-        const currentDate = new Date();
-        const year = currentDate.getFullYear();
-        const month = currentDate.getMonth() + 1;
+        if (currentPeriod === '') {
+          const currentDate = new Date();
+          const year = currentDate.getFullYear();
+          const month = currentDate.getMonth() + 1;
 
-        setCurrentPeriod(`${year}-${month}`);
-      }
-    });
-  }, [allTransactions, currentPeriod]);
+          setCurrentPeriod(`${year}-${month}`);
+        }
+      });
+    }
+  }, [isLogging, allTransactions, currentPeriod]);
 
   useEffect(() => {
     if (currentPeriod !== '') {
@@ -171,13 +177,22 @@ export default function App() {
     setCurrentPage(parseInt(page, 0));
   };
 
+  const handleLogging = (login, password) => {
+    // console.log(login, password);
+    userService.login(login, password).then((response) => {
+      const { login, valid } = response;
+      setIsLogging(!valid);
+    });
+  };
+
   return (
     <div className="container">
+      <Login isLogging={isLogging} onLogging={handleLogging} />
       <h3 style={{ textAlign: 'center' }}>
         Desafio Final do Bootcamp Full Stack
       </h3>
       <h4 style={{ textAlign: 'center' }}>Controle Financeiro Pessoal</h4>
-      {!isModalOpen && (
+      {!isModalOpen && !isLogging && (
         <div>
           <Navegation
             onChangeSelected={handleChangeSelected}

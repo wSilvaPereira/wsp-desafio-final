@@ -1,5 +1,5 @@
 const mongoose = require('mongoose');
-const TransactionModel = require('../models/TransactionModel');
+// const TransactionModel = require('../models/TransactionModel');
 const ObjectId = mongoose.Types.ObjectId;
 
 // Aqui havia um erro difícil de pegar. Importei como "transactionModel",
