@@ -197,12 +197,12 @@ export default function App() {
   return (
     <div className="container">
       <Login isLogging={isLogging} onLogging={handleLogging} />
-      <h3 style={{ textAlign: 'center' }}>
-        Desafio Final do Bootcamp Full Stack
-      </h3>
-      <h4 style={{ textAlign: 'center' }}>Controle Financeiro Pessoal</h4>
       {!isModalOpen && !isLogging && (
         <div>
+          <h3 style={{ textAlign: 'center' }}>
+            Desafio Final do Bootcamp Full Stack
+          </h3>
+          <h4 style={{ textAlign: 'center' }}>Controle Financeiro Pessoal</h4>
           <Navegation
             onChangeSelected={handleChangeSelected}
             currentPeriod={currentPeriod}
